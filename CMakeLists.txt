@@ -7,7 +7,7 @@ if(POLICY CMP0091)
   cmake_policy(SET CMP0091 NEW)
 endif()
 
-project(YAML_CPP VERSION 0.6.3 LANGUAGES CXX)
+project(YAML_CPP VERSION 0.7.0 LANGUAGES CXX)
 
 include(CMakePackageConfigHelpers)
 include(CMakeDependentOption)
@@ -31,11 +31,13 @@ cmake_dependent_option(YAML_MSVC_SHARED_RT
   "MSVC: Build yaml-cpp with shared runtime libs (/MD)" ON
   "MSVC" OFF)
 
-set(yaml-cpp-type STATIC)
-set(yaml-cpp-label-postfix "static")
 if (YAML_BUILD_SHARED_LIBS)
   set(yaml-cpp-type SHARED)
   set(yaml-cpp-label-postfix "shared")
+else()
+  set(yaml-cpp-type STATIC)
+  set(yaml-cpp-label-postfix "static")
+  add_definitions(-DYAML_CPP_STATIC_DEFINE)
 endif()
 
 set(build-shared $<BOOL:${YAML_BUILD_SHARED_LIBS}>)
